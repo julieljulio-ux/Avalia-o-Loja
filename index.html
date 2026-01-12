@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Avaliação Império BR</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; text-align: center; }
+        .container { max-width: 800px; background: white; padding: 30px; border-radius: 15px; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        .logo-loja { width: 150px; height: auto; margin-bottom: 10px; }
+        
+        h1 { color: #333; margin-bottom: 5px; font-size: 26px; }
+        p { color: #666; margin-bottom: 25px; }
+        
+        .team-container { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
+            gap: 15px; 
+            margin-bottom: 30px; 
+        }
+        
+        .staff-card { cursor: pointer; padding: 10px; border-radius: 12px; transition: 0.3s; background: #fff; border: 2px solid #eee; }
+        .staff-card:hover { border-color: #ff69b4; background: #fff0f5; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .staff-card.selected { border-color: #28a745; background: #f0fff0; }
+
+        .staff-card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #eee; pointer-events: none; }
+        .staff-card p { margin: 10px 0 0; font-weight: bold; font-size: 14px; color: #444; }
+
+        .form-section { margin-top: 30px; display: none; border-top: 2px solid #eee; padding-top: 20px; animation: fadeIn 0.5s; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        textarea { width: 100%; height: 120px; padding: 12px; border-radius: 8px; border: 1px solid #ccc; margin-top: 10px; box-sizing: border-box; font-size: 16px; font-family: inherit; }
+        .btn-enviar { background-color: #28a745; color: white; border: none; padding: 15px 30px; border-radius: 30px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; width: 100%; transition: 0.3s; }
+        .btn-enviar:disabled { background-color: #ccc; cursor: not-allowed; }
+        
+        .rating { direction: rtl; font-size: 45px; unicode-bidi: bidi-override; padding: 10px 0; }
+        .rating input { display: none; }
+        .rating label { color: #ccc; cursor: pointer; }
+        .rating label:hover, .rating label:hover ~ label, .rating input:checked ~ label { color: #f39c12; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <img src="https://i.ibb.co/VYggFmfv/Screenshot-20251213-134411.png" alt="Logo Império BR" class="logo-loja">
+    
+    <h1>Avaliação Império BR!</h1>
+    <p>Sua opinião é muito importante para nós. 😊<br>Toque na foto de quem te atendeu:</p>
+
+    <div class="team-container">
+        <div class="staff-card" onclick="selecionar(this, 'Fernanda (Atendente)')">
+            <img src="https://i.ibb.co/twDDXqfV/IMG-20251229-WA0016.jpg">
+            <p>Fernanda (Atendente)</p>
+        </div>
+        <div class="staff-card" onclick="selecionar(this, 'Luana (Caixa)')">
+            <img src="https://i.ibb.co/Q77fqLK0/IMG-20260110-WA0008.jpg">
+            <p>Luana (Caixa)</p>
+        </div>
+        <div class="staff-card" onclick="selecionar(this, 'Mirelli (Atendente)')">
+            <img src="https://i.ibb.co/t0pygrj/IMG-20260110-WA0006.jpg">
+            <p>Mirelli (Atendente)</p>
+        </div>
+        <div class="staff-card" onclick="selecionar(this, 'Juliel (Gerente)')">
+            <img src="https://i.ibb.co/kVp9xLtj/IMG-20251118-WA0010.jpg">
+            <p>Juliel (Gerente)</p>
+        </div>
+        <div class="staff-card" onclick="selecionar(this, 'Alexandra (Atendente)')">
+            <img src="https://i.ibb.co/7JBqVkcD/IMG-20251229-WA0023.jpg">
+            <p>Alexandra (Atendente)</p>
+        </div>
+        <div class="staff-card" onclick="selecionar(this, 'Anny (Atendente)')">
+            <img src="https://i.ibb.co/5XRrDRpz/IMG-20251229-WA0021.jpg">
+            <p>Anny (Atendente)</p>
+        </div>
+        <div class="staff-card" onclick="selecionar(this, 'Julia (Atendente)')">
+            <img src="https://i.ibb.co/N6KnPB7X/IMG-20251229-WA0022.jpg">
+            <p>Julia (Atendente)</p>
+        </div>
+        <div class="staff-card" onclick="selecionar(this, 'Aline (Caixa)')">
+            <img src="https://i.ibb.co/0pJD17DJ/IMG-20251229-WA0025.jpg">
+            <p>Aline (Caixa)</p>
+        </div>
+    </div>
+
+    <div id="feedback-form" class="form-section">
+        <h3 id="titulo-avaliacao">Avaliando o atendimento</h3>
+        
+        <div class="rating">
+            <input type="radio" id="star5" name="star" value="5"><label for="star5">★</label>
+            <input type="radio" id="star4" name="star" value="4"><label for="star4">★</label>
+            <input type="radio" id="star3" name="star" value="3"><label for="star3">★</label>
+            <input type="radio" id="star2" name="star" value="2"><label for="star2">★</label>
+            <input type="radio" id="star1" name="star" value="1"><label for="star1">★</label>
+        </div>
+
+        <textarea id="comentario" placeholder="Conte-nos o que achou da experiência..."></textarea>
+        <button class="btn-enviar" onclick="enviar()">Enviar Avaliação</button>
+    </div>
+</div>
+
+<script>
+    let funcionarioSelecionado = "";
+
+    function selecionar(elemento, nome) {
+        document.querySelectorAll('.staff-card').forEach(card => card.classList.remove('selected'));
+        elemento.classList.add('selected');
+        
+        funcionarioSelecionado = nome;
+        document.getElementById('feedback-form').style.display = 'block';
+        document.getElementById('titulo-avaliacao').innerText = 'Avaliando: ' + nome;
+        
+        setTimeout(() => {
+            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+        }, 100);
+    }
+
+    async function enviar() {
+        const notaInput = document.querySelector('input[name="star"]:checked');
+        const comentarioInput = document.getElementById('comentario').value;
+        const btn = document.querySelector('.btn-enviar');
+
+        if (!notaInput) {
+            alert('Por favor, escolha uma nota clicando nas estrelas.');
+            return;
+        }
+
+        const dados = {
+            funcionario: funcionarioSelecionado,
+            nota: notaInput.value,
+            comentario: comentarioInput
+        };
+
+        btn.disabled = true;
+        btn.innerText = "Enviando...";
+
+        try {
+            await fetch("https://script.google.com/macros/s/AKfycby2-1n1n-DudV5bq1-Y0Hu69hJ7_XAOWiuvRFlvA3ii461ijHRQRRV2ei4-rjqKEVS8pg/exec", {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dados)
+            });
+
+            alert('Muito obrigado! Sua avaliação ajuda a Império BR a crescer.');
+            location.reload();
+        } catch (error) {
+            console.error(error);
+            alert('Ocorreu um erro ao enviar. Verifique sua conexão.');
+            btn.disabled = false;
+            btn.innerText = "Enviar Avaliação";
+        }
+    }
+</script>
+
+</body>
+</html>

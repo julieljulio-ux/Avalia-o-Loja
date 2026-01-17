@@ -7,30 +7,17 @@
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; text-align: center; }
         .container { max-width: 800px; background: white; padding: 30px; border-radius: 15px; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        
-        .logo-loja { width: 150px; height: auto; margin-bottom: 10px; }
-        
         h1 { color: #333; margin-bottom: 5px; font-size: 26px; }
         p { color: #666; margin-bottom: 25px; }
-        
-        .team-container { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); 
-            gap: 15px; 
-            margin-bottom: 30px; 
-        }
-        
+        .team-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 30px; }
         .staff-card { cursor: pointer; padding: 10px; border-radius: 12px; transition: 0.3s; background: #fff; border: 1px solid #eee; }
         .staff-card:hover { border-color: #ff69b4; background: #fff0f5; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         .staff-card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #eee; pointer-events: none; }
         .staff-card p { margin: 10px 0 0; font-weight: bold; font-size: 14px; color: #444; }
-
         .form-section { margin-top: 30px; display: none; border-top: 2px solid #eee; padding-top: 20px; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
         textarea { width: 100%; height: 120px; padding: 12px; border-radius: 8px; border: 1px solid #ccc; margin-top: 10px; box-sizing: border-box; font-size: 16px; }
         .btn-enviar { background-color: #28a745; color: white; border: none; padding: 15px 30px; border-radius: 30px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; width: 100%; }
-        
         .rating { direction: rtl; font-size: 45px; unicode-bidi: bidi-override; padding: 10px 0; }
         .rating input { display: none; }
         .rating label { color: #ccc; cursor: pointer; }
@@ -40,8 +27,7 @@
 <body>
 
 <div class="container">
-    <img src="https://i.ibb.co/VYggFmfv/Screenshot-20251213-134411.png" alt="Logo Império BR" border="0">
-    
+    <img src="https://i.ibb.co/VYggFmfv/Screenshot-20251213-134411.png" alt="Logo" border="0">
     <h1>Avaliação Império BR!</h1>
     <p>Sua opinião é muito importante para nós. 😊<br>Toque na foto de quem te atendeu:</p>
 
@@ -86,7 +72,6 @@
 
     <div id="feedback-form" class="form-section">
         <h3 id="titulo-avaliacao">Avaliando o atendimento</h3>
-        
         <div class="rating">
             <input type="radio" id="star5" name="star" value="5"><label for="star5">★</label>
             <input type="radio" id="star4" name="star" value="4"><label for="star4">★</label>
@@ -94,14 +79,16 @@
             <input type="radio" id="star2" name="star" value="2"><label for="star2">★</label>
             <input type="radio" id="star1" name="star" value="1"><label for="star1">★</label>
         </div>
-
-        <textarea placeholder="Conte-nos o que achou da experiência..."></textarea>
+        <textarea id="comentario" placeholder="Conte-nos o que achou da experiência..."></textarea>
         <button class="btn-enviar" onclick="enviar()">Enviar Avaliação</button>
     </div>
 </div>
 
 <script>
+    let funcionarioSelecionado = "";
+
     function selecionar(nome) {
+        funcionarioSelecionado = nome;
         document.getElementById('feedback-form').style.display = 'block';
         document.getElementById('titulo-avaliacao').innerText = 'Avaliando: ' + nome;
         setTimeout(() => {
@@ -110,13 +97,32 @@
     }
 
     function enviar() {
-        alert('Muito obrigado! Sua avaliação ajuda a Império BR a crescer.');
-        location.reload();
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxQvfSeHr-oA3N75vpRQAEiPvoZOFKcQBszjYv2rIKE5XOrqLDLLhPcwXENyaHX051Prw/exec';
+        const nota = document.querySelector('input[name="star"]:checked')?.value;
+        const comentario = document.getElementById('comentario').value;
+
+        if (!nota) {
+            alert("Por favor, selecione uma nota (estrelas).");
+            return;
+        }
+
+        // Criando os dados para enviar
+        const formData = new FormData();
+        formData.append('colaborador', funcionarioSelecionado);
+        formData.append('nota', nota);
+        formData.append('comentario', comentario);
+
+        fetch(scriptURL, { method: 'POST', body: formData})
+          .then(response => {
+              alert('Muito obrigado! Sua avaliação ajuda a Império BR a crescer.');
+              location.reload();
+          })
+          .catch(error => {
+              alert('Erro ao enviar! Tente novamente.');
+              console.error('Erro!', error.message);
+          });
     }
 </script>
 
 </body>
 </html>
-
-</html>
-

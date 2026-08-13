@@ -7,18 +7,33 @@
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 20px; text-align: center; }
         .container { max-width: 800px; background: white; padding: 30px; border-radius: 15px; margin: 0 auto; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        
+        .logo-loja { width: 150px; height: auto; margin-bottom: 10px; }
+        
         h1 { color: #333; margin-bottom: 5px; font-size: 26px; }
         p { color: #666; margin-bottom: 25px; }
-        .team-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 15px; margin-bottom: 30px; }
+        
+        .team-container { 
+            display: grid; 
+            /* Aumentado o espaço mínimo de cada cartão para 160px */
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); 
+            gap: 15px; 
+            margin-bottom: 30px; 
+        }
+        
         .staff-card { cursor: pointer; padding: 10px; border-radius: 12px; transition: 0.3s; background: #fff; border: 1px solid #eee; }
         .staff-card:hover { border-color: #ff69b4; background: #fff0f5; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
-        .staff-card img { width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid #eee; pointer-events: none; }
+        
+        /* Fotos aumentadas de 100px para 130px */
+        .staff-card img { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid #eee; pointer-events: none; }
         .staff-card p { margin: 10px 0 0; font-weight: bold; font-size: 14px; color: #444; }
+
         .form-section { margin-top: 30px; display: none; border-top: 2px solid #eee; padding-top: 20px; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
         textarea { width: 100%; height: 120px; padding: 12px; border-radius: 8px; border: 1px solid #ccc; margin-top: 10px; box-sizing: border-box; font-size: 16px; }
         .btn-enviar { background-color: #28a745; color: white; border: none; padding: 15px 30px; border-radius: 30px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; width: 100%; }
-        .btn-enviar:disabled { background-color: #ccc; cursor: not-allowed; }
+        
         .rating { direction: rtl; font-size: 45px; unicode-bidi: bidi-override; padding: 10px 0; }
         .rating input { display: none; }
         .rating label { color: #ccc; cursor: pointer; }
@@ -28,47 +43,48 @@
 <body>
 
 <div class="container">
-    <img src="https://i.ibb.co/VYggFmfv/Screenshot-20251213-134411.png" alt="Logo" border="0">
+  <img src="https://i.ibb.co/fVN38H0D/Inserir-um-subt-tulo-1.png" alt="Logo Império BR" border="0">    
     <h1>Avaliação Império BR!</h1>
     <p>Sua opinião é muito importante para nós. 😊<br>Toque na foto de quem te atendeu:</p>
 
     <div class="team-container">
-        <div class="staff-card" onclick="selecionar('Fernanda (Atendente)')">
-            <img src="https://i.ibb.co/twDDXqfV/IMG-20251229-WA0016.jpg">
-            <p>Fernanda (Atendente)</p>
+        <div class="staff-card" onclick="selecionar('Juliel Júlio (Gerente)')">
+            <img src="https://i.ibb.co/C3nTDP4K/IMG-5363-JPG.jpg">
+            <p>Juliel Júlio (Gerente)</p>
         </div>
-        <div class="staff-card" onclick="selecionar('Mirelli (Atendente)')">
-            <img src="https://i.ibb.co/t0pygrj/IMG-20260110-WA0006.jpg">
-            <p>Mirelli (Atendente)</p>
+        <div class="staff-card" onclick="selecionar('Aline Cristina (Op. De Caixa)')">
+            <img src="https://i.ibb.co/ZQz2C8B/IMG-1379.jpg">
+            <p>Aline Cristina (Op. De Caixa)</p>
         </div>
-        <div class="staff-card" onclick="selecionar('Juliel (Gerente)')">
-            <img src="https://i.ibb.co/kVp9xLtj/IMG-20251118-WA0010.jpg">
-            <p>Juliel (Gerente)</p>
+        <div class="staff-card" onclick="selecionar('Mônica Da Cruz (Op. De Caixa)')">
+            <img src="https://i.ibb.co/PsqZB1hL/IMG-1411.jpg">
+            <p>Mônica Da Cruz (Op. De Caixa)</p>
         </div>
-        <div class="staff-card" onclick="selecionar('Alexandra (Atendente)')">
-            <img src="https://i.ibb.co/7JBqVkcD/IMG-20251229-WA0023.jpg">
-            <p>Alexandra (Atendente)</p>
+        <div class="staff-card" onclick="selecionar('Anny Beatriz (Atendente)')">
+            <img src="https://i.ibb.co/kp1C2KG/IMG-1377.jpg">
+            <p>Anny Beatriz (Atendente)</p>
         </div>
-        <div class="staff-card" onclick="selecionar('Anny (Atendente)')">
-            <img src="https://i.ibb.co/5XRrDRpz/IMG-20251229-WA0021.jpg">
-            <p>Anny (Atendente)</p>
+        <div class="staff-card" onclick="selecionar('Alexandra Cruz (Atendente)')">
+            <img src="https://i.ibb.co/HD5H25ct/IMG-1365.jpg">
+            <p>Alexandra Cruz (Atendente)</p>
         </div>
-        <div class="staff-card" onclick="selecionar('Julia (Atendente)')">
-            <img src="https://i.ibb.co/N6KnPB7X/IMG-20251229-WA0022.jpg">
-            <p>Julia (Atendente)</p>
+        <div class="staff-card" onclick="selecionar('Grazielly Mendes (Atendente)')">
+            <img src="https://i.ibb.co/Pv6Z47jh/IMG-1402.jpg">
+            <p>Grazielly Mendes (Atendente)</p>
         </div>
-        <div class="staff-card" onclick="selecionar('Aline (Caixa)')">
-            <img src="https://i.ibb.co/0pJD17DJ/IMG-20251229-WA0025.jpg">
-            <p>Aline (Caixa)</p>
+        <div class="staff-card" onclick="selecionar('Júlia Egypto (Atendente)')">
+            <img src="https://i.ibb.co/Y4vWdHxh/IMG-1405.jpg">
+            <p>Júlia Egypto (Atendente)</p>
         </div>
-        <div class="staff-card" onclick="selecionar('Mônica (Caixa)')">
-            <img src="https://i.ibb.co/QvPT8YP7/Whats-App-Image-2026-01-16-at-17-34-34.jpg">
-            <p>Mônica (Caixa)</p>
+        <div class="staff-card" onclick="selecionar('Mirelli Cunha (Atendente)')">
+            <img src="https://i.ibb.co/d4h1TNHM/IMG-1367.jpg">
+            <p>Mirelli Cunha (Atendente)</p>
         </div>
     </div>
 
     <div id="feedback-form" class="form-section">
         <h3 id="titulo-avaliacao">Avaliando o atendimento</h3>
+        
         <div class="rating">
             <input type="radio" id="star5" name="star" value="5"><label for="star5">★</label>
             <input type="radio" id="star4" name="star" value="4"><label for="star4">★</label>
@@ -76,16 +92,14 @@
             <input type="radio" id="star2" name="star" value="2"><label for="star2">★</label>
             <input type="radio" id="star1" name="star" value="1"><label for="star1">★</label>
         </div>
-        <textarea id="comentario" placeholder="Conte-nos o que achou da experiência..."></textarea>
+
+        <textarea placeholder="Conte-nos o que achou da experiência..."></textarea>
         <button class="btn-enviar" onclick="enviar()">Enviar Avaliação</button>
     </div>
 </div>
 
 <script>
-    let funcionarioSelecionado = "";
-
     function selecionar(nome) {
-        funcionarioSelecionado = nome;
         document.getElementById('feedback-form').style.display = 'block';
         document.getElementById('titulo-avaliacao').innerText = 'Avaliando: ' + nome;
         setTimeout(() => {
@@ -94,42 +108,8 @@
     }
 
     function enviar() {
-        // NOVO LINK DO SCRIPT AQUI
-        const scriptURL = 'https://script.google.com/macros/s/AKfycby9AQQDfq7ZCf9BHg5LZldh45pnGDT7zH2JiYEWuB4_Yn1oYfLlsk9dB91BOMbid2lKpg/exec';
-        
-        const nota = document.querySelector('input[name="star"]:checked')?.value;
-        const comentario = document.getElementById('comentario').value;
-
-        if (!nota) {
-            alert("Por favor, selecione uma nota (estrelas).");
-            return;
-        }
-
-        const btn = document.querySelector('.btn-enviar');
-        btn.innerText = "Enviando...";
-        btn.disabled = true;
-
-        // Montando URLSearchParams para evitar problemas de bloqueio (CORS)
-        const params = new URLSearchParams();
-        params.append('colaborador', funcionarioSelecionado);
-        params.append('nota', nota);
-        params.append('comentario', comentario);
-
-        fetch(scriptURL, { 
-            method: 'POST', 
-            mode: 'no-cors', // Garante o envio mesmo que o Google não retorne resposta direta
-            body: params
-        })
-        .then(() => {
-            alert('Muito obrigado! Sua avaliação ajuda a Império BR a crescer.');
-            location.reload();
-        })
-        .catch(error => {
-            alert('Erro ao enviar! Verifique sua conexão e tente novamente.');
-            console.error('Erro!', error.message);
-            btn.innerText = "Enviar Avaliação";
-            btn.disabled = false;
-        });
+        alert('Muito obrigado! Sua avaliação ajuda a Império BR a crescer.');
+        location.reload();
     }
 </script>
 

@@ -15,7 +15,6 @@
         
         .team-container { 
             display: grid; 
-            /* Aumentado o espaço mínimo de cada cartão para 160px */
             grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); 
             gap: 15px; 
             margin-bottom: 30px; 
@@ -24,7 +23,6 @@
         .staff-card { cursor: pointer; padding: 10px; border-radius: 12px; transition: 0.3s; background: #fff; border: 1px solid #eee; }
         .staff-card:hover { border-color: #ff69b4; background: #fff0f5; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         
-        /* Fotos aumentadas de 100px para 130px */
         .staff-card img { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid #eee; pointer-events: none; }
         .staff-card p { margin: 10px 0 0; font-weight: bold; font-size: 14px; color: #444; }
 
@@ -43,41 +41,41 @@
 <body>
 
 <div class="container">
-  <img src="https://i.ibb.co/fVN38H0D/Inserir-um-subt-tulo-1.png" alt="Logo Império BR" border="0">    
+    <img src="https://ibb.co" alt="Logo Império BR" border="0">    
     <h1>Avaliação Império BR!</h1>
     <p>Sua opinião é muito importante para nós. 😊<br>Toque na foto de quem te atendeu:</p>
 
     <div class="team-container">
         <div class="staff-card" onclick="selecionar('Juliel Júlio (Gerente)')">
-            <img src="https://i.ibb.co/C3nTDP4K/IMG-5363-JPG.jpg">
+            <img src="https://ibb.co">
             <p>Juliel Júlio (Gerente)</p>
         </div>
         <div class="staff-card" onclick="selecionar('Aline Cristina (Op. De Caixa)')">
-            <img src="https://i.ibb.co/ZQz2C8B/IMG-1379.jpg">
+            <img src="https://ibb.co">
             <p>Aline Cristina (Op. De Caixa)</p>
         </div>
         <div class="staff-card" onclick="selecionar('Mônica Da Cruz (Op. De Caixa)')">
-            <img src="https://i.ibb.co/PsqZB1hL/IMG-1411.jpg">
+            <img src="https://ibb.co">
             <p>Mônica Da Cruz (Op. De Caixa)</p>
         </div>
         <div class="staff-card" onclick="selecionar('Anny Beatriz (Atendente)')">
-            <img src="https://i.ibb.co/kp1C2KG/IMG-1377.jpg">
+            <img src="https://ibb.co">
             <p>Anny Beatriz (Atendente)</p>
         </div>
         <div class="staff-card" onclick="selecionar('Alexandra Cruz (Atendente)')">
-            <img src="https://i.ibb.co/HD5H25ct/IMG-1365.jpg">
+            <img src="https://ibb.co">
             <p>Alexandra Cruz (Atendente)</p>
         </div>
         <div class="staff-card" onclick="selecionar('Grazielly Mendes (Atendente)')">
-            <img src="https://i.ibb.co/Pv6Z47jh/IMG-1402.jpg">
+            <img src="https://ibb.co">
             <p>Grazielly Mendes (Atendente)</p>
         </div>
         <div class="staff-card" onclick="selecionar('Júlia Egypto (Atendente)')">
-            <img src="https://i.ibb.co/Y4vWdHxh/IMG-1405.jpg">
+            <img src="https://ibb.co">
             <p>Júlia Egypto (Atendente)</p>
         </div>
         <div class="staff-card" onclick="selecionar('Mirelli Cunha (Atendente)')">
-            <img src="https://i.ibb.co/d4h1TNHM/IMG-1367.jpg">
+            <img src="https://ibb.co">
             <p>Mirelli Cunha (Atendente)</p>
         </div>
     </div>
@@ -99,7 +97,10 @@
 </div>
 
 <script>
+    let atendenteSelecionado = "";
+
     function selecionar(nome) {
+        atendenteSelecionado = nome;
         document.getElementById('feedback-form').style.display = 'block';
         document.getElementById('titulo-avaliacao').innerText = 'Avaliando: ' + nome;
         setTimeout(() => {
@@ -108,8 +109,50 @@
     }
 
     function enviar() {
-        alert('Muito obrigado! Sua avaliação ajuda a Império BR a crescer.');
-        location.reload();
+        const estrelaSelecionada = document.querySelector('input[name="star"]:checked');
+        const nota = estrelaSelecionada ? estrelaSelecionada.value : "";
+        const comentario = document.querySelector('.form-section textarea').value;
+
+        if (!atendenteSelecionado) {
+            alert("Por favor, selecione um atendente clicando na foto.");
+            return;
+        }
+        if (!nota) {
+            alert("Por favor, selecione uma nota de 1 a 5 estrelas.");
+            return;
+        }
+
+        const botao = document.querySelector('.btn-enviar');
+        botao.innerText = "Enviando...";
+        botao.disabled = true;
+
+        // SUBISTITUA O TEXTO ABAIXO PELO SEU LINK DO GOOGLE APPS SCRIPT
+        const URL_GOOGLE_SCRIPT = "COLE_AQUI_A_SUA_URL_DO_WEB_APP";
+
+        const dadosFormulario = {
+            atendente: atendenteSelecionado,
+            nota: nota,
+            comentario: comentario
+        };
+
+        fetch(URL_GOOGLE_SCRIPT, {
+            method: "POST",
+            mode: "no-cors",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(dadosFormulario)
+        })
+        .then(() => {
+            alert('Muito obrigado! Sua avaliação ajuda a Império BR a crescer.');
+            location.reload();
+        })
+        .catch((erro) => {
+            console.error("Erro no envio:", erro);
+            alert("Ocorreu um erro ao enviar sua avaliação. Tente novamente.");
+            botao.innerText = "Enviar Avaliação";
+            botao.disabled = false;
+        });
     }
 </script>
 

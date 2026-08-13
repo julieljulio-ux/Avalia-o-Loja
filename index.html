@@ -41,41 +41,41 @@
 <body>
 
 <div class="container">
-    <img src="https://ibb.co" alt="Logo Império BR" border="0">    
+  <img src="https://i.ibb.co/fVN38H0D/Inserir-um-subt-tulo-1.png" alt="Logo Império BR" border="0">    
     <h1>Avaliação Império BR!</h1>
     <p>Sua opinião é muito importante para nós. 😊<br>Toque na foto de quem te atendeu:</p>
 
     <div class="team-container">
         <div class="staff-card" onclick="selecionar('Juliel Júlio (Gerente)')">
-            <img src="https://ibb.co">
+            <img src="https://i.ibb.co/C3nTDP4K/IMG-5363-JPG.jpg">
             <p>Juliel Júlio (Gerente)</p>
         </div>
         <div class="staff-card" onclick="selecionar('Aline Cristina (Op. De Caixa)')">
-            <img src="https://ibb.co">
+            <img src="https://i.ibb.co/ZQz2C8B/IMG-1379.jpg">
             <p>Aline Cristina (Op. De Caixa)</p>
         </div>
         <div class="staff-card" onclick="selecionar('Mônica Da Cruz (Op. De Caixa)')">
-            <img src="https://ibb.co">
+            <img src="https://i.ibb.co/PsqZB1hL/IMG-1411.jpg">
             <p>Mônica Da Cruz (Op. De Caixa)</p>
         </div>
         <div class="staff-card" onclick="selecionar('Anny Beatriz (Atendente)')">
-            <img src="https://ibb.co">
+            <img src="https://i.ibb.co/kp1C2KG/IMG-1377.jpg">
             <p>Anny Beatriz (Atendente)</p>
         </div>
         <div class="staff-card" onclick="selecionar('Alexandra Cruz (Atendente)')">
-            <img src="https://ibb.co">
+            <img src="https://i.ibb.co/HD5H25ct/IMG-1365.jpg">
             <p>Alexandra Cruz (Atendente)</p>
         </div>
         <div class="staff-card" onclick="selecionar('Grazielly Mendes (Atendente)')">
-            <img src="https://ibb.co">
+            <img src="https://i.ibb.co/Pv6Z47jh/IMG-1402.jpg">
             <p>Grazielly Mendes (Atendente)</p>
         </div>
         <div class="staff-card" onclick="selecionar('Júlia Egypto (Atendente)')">
-            <img src="https://ibb.co">
+            <img src="https://i.ibb.co/Y4vWdHxh/IMG-1405.jpg">
             <p>Júlia Egypto (Atendente)</p>
         </div>
         <div class="staff-card" onclick="selecionar('Mirelli Cunha (Atendente)')">
-            <img src="https://ibb.co">
+            <img src="https://i.ibb.co/d4h1TNHM/IMG-1367.jpg">
             <p>Mirelli Cunha (Atendente)</p>
         </div>
     </div>
@@ -97,6 +97,7 @@
 </div>
 
 <script>
+    // Variável para guardar quem foi selecionado
     let atendenteSelecionado = "";
 
     function selecionar(nome) {
@@ -110,9 +111,10 @@
 
     function enviar() {
         const estrelaSelecionada = document.querySelector('input[name="star"]:checked');
-        const nota = estrelaSelecionada ? estrelaSelecionada.value : "";
+        const nota = estrelaSelecionada ? estrelaSelecionada.value : "https://docs.google.com/spreadsheets/d/1fxGrt2OQBi5OMez5OJdoJEKf4S0AdDgxAcZM4oxsjwg/edit?usp=sharing";
         const comentario = document.querySelector('.form-section textarea').value;
 
+        // Validações básicas
         if (!atendenteSelecionado) {
             alert("Por favor, selecione um atendente clicando na foto.");
             return;
@@ -122,11 +124,12 @@
             return;
         }
 
+        // Desativa o botão para evitar múltiplos cliques
         const botao = document.querySelector('.btn-enviar');
         botao.innerText = "Enviando...";
         botao.disabled = true;
 
-        // SUBISTITUA O TEXTO ABAIXO PELO SEU LINK DO GOOGLE APPS SCRIPT
+        // INSIRA SEU LINK DO GOOGLE APPS SCRIPT NA LINHA ABAIXO
         const URL_GOOGLE_SCRIPT = "COLE_AQUI_A_SUA_URL_DO_WEB_APP";
 
         const dadosFormulario = {
@@ -135,6 +138,7 @@
             comentario: comentario
         };
 
+        // Envia os dados para a planilha usando fetch
         fetch(URL_GOOGLE_SCRIPT, {
             method: "POST",
             mode: "no-cors",

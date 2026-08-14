@@ -22,6 +22,7 @@
         
         .staff-card { cursor: pointer; padding: 10px; border-radius: 12px; transition: 0.3s; background: #fff; border: 1px solid #eee; }
         .staff-card:hover { border-color: #ff69b4; background: #fff0f5; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .staff-card.selected { border-color: #ff69b4; background: #fff0f5; }
         
         .staff-card img { width: 130px; height: 130px; border-radius: 50%; object-fit: cover; border: 3px solid #eee; pointer-events: none; }
         .staff-card p { margin: 10px 0 0; font-weight: bold; font-size: 14px; color: #444; }
@@ -29,136 +30,78 @@
         .form-section { margin-top: 30px; display: none; border-top: 2px solid #eee; padding-top: 20px; animation: fadeIn 0.5s; }
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
-        textarea { width: 100%; height: 120px; padding: 12px; border-radius: 8px; border: 1px solid #ccc; margin-top: 10px; box-sizing: border-box; font-size: 16px; }
-        .btn-enviar { background-color: #28a745; color: white; border: none; padding: 15px 30px; border-radius: 30px; font-size: 18px; font-weight: bold; cursor: pointer; margin-top: 20px; width: 100%; }
+        textarea { width: 100%; height: 120px; padding: 12px; border-radius: 8px; border: 1px solid #ccc; margin-top: 10px; box-sizing: border-box; resize: vertical; }
         
-        .rating { direction: rtl; font-size: 45px; unicode-bidi: bidi-override; padding: 10px 0; }
-        .rating input { display: none; }
-        .rating label { color: #ccc; cursor: pointer; }
-        .rating label:hover, .rating label:hover ~ label, .rating input:checked ~ label { color: #f39c12; }
+        button { background-color: #ff69b4; color: white; border: none; padding: 12px 25px; font-size: 16px; border-radius: 8px; cursor: pointer; margin-top: 15px; transition: 0.3s; }
+        button:hover { background-color: #ff1493; }
+
+        /* Estilo da mensagem de sucesso */
+        .thank-you-message { display: none; animation: fadeIn 0.5s; padding: 40px 20px; }
+        .thank-you-message h2 { color: #2ecc71; }
     </style>
 </head>
 <body>
 
-<div class="container">
-  <img src="https://i.ibb.co/fVN38H0D/Inserir-um-subt-tulo-1.png" alt="Logo Império BR" border="0">    
-    <h1>Avaliação Império BR!</h1>
-    <p>Sua opinião é muito importante para nós. 😊<br>Toque na foto de quem te atendeu:</p>
+    <div class="container" id="main-container">
+        <!-- Logo e Cabeçalho -->
+        <div id="evaluation-content">
+            <h1>Avaliação Império BR</h1>
+            <p>Selecione um membro da equipe para começar sua avaliação:</p>
 
-    <div class="team-container">
-        <div class="staff-card" onclick="selecionar('Juliel Júlio (Gerente)')">
-            <img src="https://i.ibb.co/C3nTDP4K/IMG-5363-JPG.jpg">
-            <p>Juliel Júlio (Gerente)</p>
+            <!-- Lista de Funcionários -->
+            <div class="team-container">
+                <div class="staff-card" onclick="selectStaff(this, 'Atendente 1')">
+                    <img src="https://placeholder.com" alt="Funcionário">
+                    <p>Atendente 1</p>
+                </div>
+                <div class="staff-card" onclick="selectStaff(this, 'Atendente 2')">
+                    <img src="https://placeholder.com" alt="Funcionário">
+                    <p>Atendente 2</p>
+                </div>
+            </div>
+
+            <!-- Formulário de Feedback -->
+            <div class="form-section" id="form-section">
+                <h3 id="selected-name">Avaliando: </h3>
+                <form id="feedback-form">
+                    <label for="comments">Deixe seu comentário ou sugestão:</label>
+                    <textarea id="comments" required placeholder="Digite aqui sua opinião..."></textarea>
+                    <button type="submit">Enviar Avaliação</button>
+                </form>
+            </div>
         </div>
-        <div class="staff-card" onclick="selecionar('Aline Cristina (Op. De Caixa)')">
-            <img src="https://i.ibb.co/ZQz2C8B/IMG-1379.jpg">
-            <p>Aline Cristina (Op. De Caixa)</p>
-        </div>
-        <div class="staff-card" onclick="selecionar('Mônica Da Cruz (Op. De Caixa)')">
-            <img src="https://i.ibb.co/PsqZB1hL/IMG-1411.jpg">
-            <p>Mônica Da Cruz (Op. De Caixa)</p>
-        </div>
-        <div class="staff-card" onclick="selecionar('Anny Beatriz (Atendente)')">
-            <img src="https://i.ibb.co/kp1C2KG/IMG-1377.jpg">
-            <p>Anny Beatriz (Atendente)</p>
-        </div>
-        <div class="staff-card" onclick="selecionar('Alexandra Cruz (Atendente)')">
-            <img src="https://i.ibb.co/HD5H25ct/IMG-1365.jpg">
-            <p>Alexandra Cruz (Atendente)</p>
-        </div>
-        <div class="staff-card" onclick="selecionar('Grazielly Mendes (Atendente)')">
-            <img src="https://i.ibb.co/Pv6Z47jh/IMG-1402.jpg">
-            <p>Grazielly Mendes (Atendente)</p>
-        </div>
-        <div class="staff-card" onclick="selecionar('Júlia Egypto (Atendente)')">
-            <img src="https://i.ibb.co/Y4vWdHxh/IMG-1405.jpg">
-            <p>Júlia Egypto (Atendente)</p>
-        </div>
-        <div class="staff-card" onclick="selecionar('Mirelli Cunha (Atendente)')">
-            <img src="https://i.ibb.co/d4h1TNHM/IMG-1367.jpg">
-            <p>Mirelli Cunha (Atendente)</p>
+
+        <!-- Tela de Agradecimento (Escondida por padrão) -->
+        <div class="thank-you-message" id="thank-you-message">
+            <h2>✓ Avaliação Enviada com Sucesso!</h2>
+            <p>A equipe da Império BR agradece imensamente o seu feedback. Ele é muito importante para nós!</p>
         </div>
     </div>
 
-    <div id="feedback-form" class="form-section">
-        <h3 id="titulo-avaliacao">Avaliando o atendimento</h3>
-        
-        <div class="rating">
-            <input type="radio" id="star5" name="star" value="5"><label for="star5">★</label>
-            <input type="radio" id="star4" name="star" value="4"><label for="star4">★</label>
-            <input type="radio" id="star3" name="star" value="3"><label for="star3">★</label>
-            <input type="radio" id="star2" name="star" value="2"><label for="star2">★</label>
-            <input type="radio" id="star1" name="star" value="1"><label for="star1">★</label>
-        </div>
-
-        <textarea placeholder="Conte-nos o que achou da experiência..."></textarea>
-        <button class="btn-enviar" onclick="enviar()">Enviar Avaliação</button>
-    </div>
-</div>
-
-<script>
-    // Variável para guardar quem foi selecionado
-    let atendenteSelecionado = "";
-
-    function selecionar(nome) {
-        atendenteSelecionado = nome;
-        document.getElementById('feedback-form').style.display = 'block';
-        document.getElementById('titulo-avaliacao').innerText = 'Avaliando: ' + nome;
-        setTimeout(() => {
-            window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
-        }, 100);
-    }
-
-    function enviar() {
-        const estrelaSelecionada = document.querySelector('input[name="star"]:checked');
-        const nota = estrelaSelecionada ? estrelaSelecionada.value : "https://docs.google.com/spreadsheets/d/1fxGrt2OQBi5OMez5OJdoJEKf4S0AdDgxAcZM4oxsjwg/edit?usp=sharing";
-        const comentario = document.querySelector('.form-section textarea').value;
-
-        // Validações básicas
-        if (!atendenteSelecionado) {
-            alert("Por favor, selecione um atendente clicando na foto.");
-            return;
-        }
-        if (!nota) {
-            alert("Por favor, selecione uma nota de 1 a 5 estrelas.");
-            return;
+    <script>
+        // Função para selecionar o funcionário e exibir o formulário
+        function selectStaff(element, name) {
+            // Remove a seleção visual de outros cartões
+            document.querySelectorAll('.staff-card').forEach(card => card.classList.remove('selected'));
+            
+            // Adiciona a seleção no cartão clicado
+            element.classList.add('selected');
+            
+            // Atualiza o nome no formulário e exibe a seção
+            document.getElementById('selected-name').innerText = "Avaliando: " + name;
+            document.getElementById('form-section').style.display = 'block';
         }
 
-        // Desativa o botão para evitar múltiplos cliques
-        const botao = document.querySelector('.btn-enviar');
-        botao.innerText = "Enviando...";
-        botao.disabled = true;
-
-        // INSIRA SEU LINK DO GOOGLE APPS SCRIPT NA LINHA ABAIXO
-        const URL_GOOGLE_SCRIPT = "COLE_AQUI_A_SUA_URL_DO_WEB_APP";
-
-        const dadosFormulario = {
-            atendente: atendenteSelecionado,
-            nota: nota,
-            comentario: comentario
-        };
-
-        // Envia os dados para a planilha usando fetch
-        fetch(URL_GOOGLE_SCRIPT, {
-            method: "POST",
-            mode: "no-cors",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(dadosFormulario)
-        })
-        .then(() => {
-            alert('Muito obrigado! Sua avaliação ajuda a Império BR a crescer.');
-            location.reload();
-        })
-        .catch((erro) => {
-            console.error("Erro no envio:", erro);
-            alert("Ocorreu um erro ao enviar sua avaliação. Tente novamente.");
-            botao.innerText = "Enviar Avaliação";
-            botao.disabled = false;
+        // Função que escuta o envio do formulário
+        document.getElementById('feedback-form').addEventListener('submit', function(event) {
+            event.preventDefault(); // Impede a página de recarregar
+            
+            // Oculta o conteúdo da avaliação
+            document.getElementById('evaluation-content').style.display = 'none';
+            
+            // Exibe a mensagem de agradecimento
+            document.getElementById('thank-you-message').style.display = 'block';
         });
-    }
-</script>
-
+    </script>
 </body>
 </html>

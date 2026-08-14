@@ -79,28 +79,54 @@
     </div>
 
     <script>
-        // Função para selecionar o funcionário e exibir o formulário
+        let atendenteSelecionado = "";
+
         function selectStaff(element, name) {
-            // Remove a seleção visual de outros cartões
             document.querySelectorAll('.staff-card').forEach(card => card.classList.remove('selected'));
-            
-            // Adiciona a seleção no cartão clicado
             element.classList.add('selected');
             
-            // Atualiza o nome no formulário e exibe a seção
+            atendenteSelecionado = name;
+            
             document.getElementById('selected-name').innerText = "Avaliando: " + name;
             document.getElementById('form-section').style.display = 'block';
         }
 
-        // Função que escuta o envio do formulário
         document.getElementById('feedback-form').addEventListener('submit', function(event) {
-            event.preventDefault(); // Impede a página de recarregar
+            event.preventDefault(); 
             
-            // Oculta o conteúdo da avaliação
-            document.getElementById('evaluation-content').style.display = 'none';
+            const comentarioTexto = document.getElementById('comments').value;
             
-            // Exibe a mensagem de agradecimento
-            document.getElementById('thank-you-message').style.display = 'block';
+            // Sua URL gerada já configurada aqui dentro
+            const urlGoogleScript = "https://script.google.com/macros/s/AKfycbwq7yFzYT_39ASThf187POXGQ0Sp2i7gtnJS_c8XVsnOYLzX92lD_Be357thiBjzmMXHQ/exec";
+
+            const botao = event.target.querySelector('button');
+            botao.disabled = true;
+            botao.innerText = "Enviando...";
+
+            const dadosFormulario = {
+                atendente: atendenteSelecionado,
+                comentario: comentarioTexto
+            };
+
+            // Mudança para text/plain evita que o Google confunda a requisição com doGet
+            fetch(urlGoogleScript, {
+                method: "POST",
+                mode: "no-cors", 
+                headers: {
+                    "Content-Type": "text/plain;charset=utf-8"
+                },
+                body: JSON.stringify(dadosFormulario)
+            })
+            .then(() => {
+                document.getElementById('evaluation-content').style.display = 'none';
+                document.getElementById('thank-you-message').style.display = 'block';
+            })
+            .catch(error => {
+                console.error("Erro ao enviar:", error);
+                alert("Ocorreu um erro ao enviar sua avaliação. Tente novamente.");
+                botao.disabled = false;
+                botao.innerText = "Enviar Avaliação";
+            });
         });
     </script>
 </body>
